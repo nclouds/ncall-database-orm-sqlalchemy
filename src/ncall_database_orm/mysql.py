@@ -38,7 +38,7 @@ class MysqlClass:
         cursor.execute(qry)
         db.commit()
 
-    def get(self, table, where="", limit=10, select="*"):
+    def get(self, table,select="*", where="", limit=10 ):
         cursor = db.cursor(dictionary=True)
         if where != "":
             where = " WHERE " + where
