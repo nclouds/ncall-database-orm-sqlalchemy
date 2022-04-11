@@ -2,9 +2,12 @@ import sys
 import globs
 import env
 import mysql.connector as _mysql
+from sqlalchemy import create_engine
 
 # Load MYSQL
 db = _mysql.connect(host=env.MYSQL_SERVER, user=env.MYSQL_USERNAME, passwd=env.MYSQL_PASSWORD, db=env.MYSQL_DB)
+
+engine = create_engine(f"mysql://{env.MYSQL_USERNAME}:{env.MYSQL_PASSWORD}@{env.MYSQL_SERVER}/{env.MYSQL_DB}",echo = True)
 
 
 class MysqlClass:
@@ -57,6 +60,13 @@ class MysqlClass:
 
         res = cursor.execute(sql)
         res = cursor.fetchone()
+        cursor.close()
+        return res
+    def getByQuery(self, query):
+        cursor = db.cursor(dictionary=True)
+
+        res = cursor.execute(query)
+        res = cursor.fetchall()
         cursor.close()
         return res
 
