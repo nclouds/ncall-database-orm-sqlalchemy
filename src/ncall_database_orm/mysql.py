@@ -60,6 +60,14 @@ class MysqlClass:
         cursor.close()
         return res
 
+    def getSingleByQuery(self, query):
+        cursor = db.cursor(dictionary=True)
+
+        res = cursor.execute(query)
+        res = cursor.fetchone()
+        cursor.close()
+        return res
+
     def getCount(self, table, where=""):
         cursor = db.cursor(dictionary=True)
         if where != "":
