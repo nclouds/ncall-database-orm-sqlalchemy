@@ -2,12 +2,19 @@ import sys
 import globs
 import env
 import mysql.connector as _mysql
+import config
 from sqlalchemy import create_engine
 
+
+db_credentials = config.config
+host_write_replica = config.host_write_replica
+host_read_replica = config.host_read_replica
 # Load MYSQL
 db = _mysql.connect(host=env.MYSQL_SERVER, user=env.MYSQL_USERNAME, passwd=env.MYSQL_PASSWORD, db=env.MYSQL_DB)
 
-engine = create_engine(f"mysql://{env.MYSQL_USERNAME}:{env.MYSQL_PASSWORD}@{env.MYSQL_SERVER}/{env.MYSQL_DB}",echo = True)
+read_engine = create_engine(f"mysql://{db_credentials['username']}:{db_credentials['password']}@{host_read_replica}/{db_credentials['db_name']}",echo = True)
+
+write_engine = create_engine(f"mysql://{db_credentials['username']}:{db_credentials['password']}@{host_write_replica}/{db_credentials['db_name']}",echo = True)
 
 
 class MysqlClass:
